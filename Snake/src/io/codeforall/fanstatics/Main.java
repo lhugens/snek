@@ -1,13 +1,14 @@
 package io.codeforall.fanstatics;
 
-import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
-import org.academiadecodigo.simplegraphics.pictures.Picture;
+import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("ssssssssssss.............");
+        Rectangle field = new Rectangle(0, 0, 400, 400);
+        field.setColor(Color.BLACK);
+        field.fill();
+
+        Snake snake = new Snake();
     }
 }
