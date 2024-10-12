@@ -10,6 +10,10 @@ public class Main {
         field.setColor(Color.BLACK);
         field.fill();
 
-        Snake snake = new Snake(dimension-10);
+        try {
+            Snake snake = new Snake(dimension-10);
+        } catch (InterruptedException ex){
+            System.out.println("Ooohhh.....");
+        }
     }
 }

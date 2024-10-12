@@ -21,7 +21,7 @@ public class Snake implements KeyboardHandler {
     public Keyboard keyboard;
     private Direction direction;
 
-    public Snake(int dimension) {
+    public Snake(int dimension) throws InterruptedException{
         this.dimension = dimension;
         this.speed = 5;
         this.size = 10;
@@ -49,6 +49,11 @@ public class Snake implements KeyboardHandler {
         }
 
         initKeyboard();
+
+        while(true){
+            move(this.direction);
+            Thread.sleep(20);
+        }
     }
 
     public void moveBody(int[] oldCoords) {
