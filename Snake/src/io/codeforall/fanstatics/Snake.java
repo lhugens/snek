@@ -18,12 +18,14 @@ public class Snake implements KeyboardHandler {
     private int[] oldCoords;
     private int speed;
     public Keyboard keyboard;
+    private Direction direction;
 
     public Snake() {
         this.speed = 5;
         this.size = 10;
         this.cellSize = 10;
         this.body = new Rectangle[this.size];
+        this.direction = Direction.UP;
 
         this.headCoords = new int[2];
         this.headCoords[0] = (int) (Math.random() * 200);
@@ -93,33 +95,72 @@ public class Snake implements KeyboardHandler {
         this.keyboard.addEventListener(moveDown);
     }
 
-    @Override
-    public void keyPressed(KeyboardEvent keyboardEvent) {
+    public void move(Direction direction){
         this.oldCoords[0] = this.headCoords[0];
         this.oldCoords[1] = this.headCoords[1];
-        switch (keyboardEvent.getKey()) {
-            case KeyboardEvent.KEY_RIGHT:
-                this.head.translate(this.speed, 0);
-                headCoords[0] += this.speed;
+        switch (direction){
+            case RIGHT:
+                if(this.direction != Direction.LEFT) {
+                    this.head.translate(this.speed, 0);
+                    headCoords[0] += this.speed;
+                    this.direction = Direction.RIGHT;
+                    this.moveBody(this.oldCoords);
+                } else {
+                    move(this.direction);
+                }
                 break;
-            case KeyboardEvent.KEY_LEFT:
-                this.head.translate(-this.speed, 0);
-                headCoords[0] -= this.speed;
+            case LEFT:
+                if(this.direction != Direction.RIGHT){
+                    this.head.translate(-this.speed, 0);
+                    headCoords[0] -= this.speed;
+                    this.direction = Direction.LEFT;
+                    this.moveBody(this.oldCoords);
+                } else {
+                    move(this.direction);
+                }
                 break;
-            case KeyboardEvent.KEY_UP:
-                this.head.translate(0, -this.speed);
-                headCoords[1] -= this.speed;
+            case UP:
+                if(this.direction != Direction.DOWN){
+                    this.head.translate(0, -this.speed);
+                    headCoords[1] -= this.speed;
+                    this.direction = Direction.UP;
+                    this.moveBody(this.oldCoords);
+                } else {
+                    move(this.direction);
+                }
                 break;
-            case KeyboardEvent.KEY_DOWN:
-                this.head.translate(0, this.speed);
-                headCoords[1] += this.speed;
+            case DOWN:
+                if(this.direction != Direction.UP){
+                    this.head.translate(0, this.speed);
+                    headCoords[1] += this.speed;
+                    this.direction = Direction.DOWN;
+                    this.moveBody(this.oldCoords);
+                } else {
+                    move(this.direction);
+                }
                 break;
         }
-        this.moveBody(this.oldCoords);
+    }
+
+    @Override
+    public void keyPressed(KeyboardEvent keyboardEvent) {
+        switch (keyboardEvent.getKey()) {
+            case KeyboardEvent.KEY_RIGHT:
+                move(Direction.RIGHT);
+                break;
+            case KeyboardEvent.KEY_LEFT:
+                move(Direction.LEFT);
+                break;
+            case KeyboardEvent.KEY_UP:
+                move(Direction.UP);
+                break;
+            case KeyboardEvent.KEY_DOWN:
+                move(Direction.DOWN);
+                break;
+        }
     }
 
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
-
     }
 }
