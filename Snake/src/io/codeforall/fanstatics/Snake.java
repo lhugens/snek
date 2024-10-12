@@ -10,6 +10,7 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import java.awt.*;
 
 public class Snake implements KeyboardHandler {
+    int dimension;
     private Rectangle head;
     private int cellSize;
     private Rectangle[] body;
@@ -20,7 +21,8 @@ public class Snake implements KeyboardHandler {
     public Keyboard keyboard;
     private Direction direction;
 
-    public Snake() {
+    public Snake(int dimension) {
+        this.dimension = dimension;
         this.speed = 5;
         this.size = 10;
         this.cellSize = 10;
@@ -95,14 +97,28 @@ public class Snake implements KeyboardHandler {
         this.keyboard.addEventListener(moveDown);
     }
 
-    public void move(Direction direction){
+    private void boundaryConditions(){
+        if(this.headCoords[0] < 0){
+            this.headCoords[0] = this.dimension;
+        } else if(this.headCoords[0] > this.dimension){
+            this.headCoords[0] = 0;
+        } else if (this.headCoords[1] < 0) {
+            this.headCoords[1] = this.dimension;
+        } else if(this.headCoords[1] > this.dimension){
+            this.headCoords[1] = 0;
+        }
+    }
+
+    private void move(Direction direction){
         this.oldCoords[0] = this.headCoords[0];
         this.oldCoords[1] = this.headCoords[1];
+
         switch (direction){
             case RIGHT:
                 if(this.direction != Direction.LEFT) {
-                    this.head.translate(this.speed, 0);
                     headCoords[0] += this.speed;
+                    boundaryConditions();
+                    this.head.translate(this.headCoords[0] - this.head.getX(), 0);
                     this.direction = Direction.RIGHT;
                     this.moveBody(this.oldCoords);
                 } else {
@@ -111,8 +127,9 @@ public class Snake implements KeyboardHandler {
                 break;
             case LEFT:
                 if(this.direction != Direction.RIGHT){
-                    this.head.translate(-this.speed, 0);
                     headCoords[0] -= this.speed;
+                    boundaryConditions();
+                    this.head.translate(this.headCoords[0] - this.head.getX(), 0);
                     this.direction = Direction.LEFT;
                     this.moveBody(this.oldCoords);
                 } else {
@@ -121,8 +138,9 @@ public class Snake implements KeyboardHandler {
                 break;
             case UP:
                 if(this.direction != Direction.DOWN){
-                    this.head.translate(0, -this.speed);
                     headCoords[1] -= this.speed;
+                    boundaryConditions();
+                    this.head.translate(0, this.headCoords[1] - this.head.getY());
                     this.direction = Direction.UP;
                     this.moveBody(this.oldCoords);
                 } else {
@@ -131,8 +149,9 @@ public class Snake implements KeyboardHandler {
                 break;
             case DOWN:
                 if(this.direction != Direction.UP){
-                    this.head.translate(0, this.speed);
                     headCoords[1] += this.speed;
+                    boundaryConditions();
+                    this.head.translate(0, this.headCoords[1] - this.head.getY());
                     this.direction = Direction.DOWN;
                     this.moveBody(this.oldCoords);
                 } else {
