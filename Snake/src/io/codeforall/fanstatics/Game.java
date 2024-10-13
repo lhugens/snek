@@ -10,6 +10,7 @@ public class Game {
     public int PADDING;
     private int size;
     private Snake snake;
+    private Apple apple;
 
     public Game(int size) {
         this.PADDING = 10;
@@ -26,10 +27,13 @@ public class Game {
         this.field.setColor(Color.BLACK);
         this.field.fill();
 
+        this.apple = new Apple(this.PADDING + this.border, this.size, this.size);
+
         try {
             this.snake = new Snake(this.PADDING + this.border, this.size - this.border);
         } catch (InterruptedException ex){
-            System.out.println("Ooohhh.....");
+            System.out.println(ex.getMessage());
         }
+
     }
 }
