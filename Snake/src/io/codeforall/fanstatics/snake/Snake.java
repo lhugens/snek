@@ -1,5 +1,8 @@
-package io.codeforall.fanstatics;
+package io.codeforall.fanstatics.snake;
 
+import io.codeforall.fanstatics.grid.Grid;
+import io.codeforall.fanstatics.grid.GridColor;
+import io.codeforall.fanstatics.grid.position.GridPosition;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
@@ -12,9 +15,14 @@ import java.security.Key;
 
 public class Snake implements KeyboardHandler {
     public Keyboard keyboard;
+    private GridPosition pos;
+    private Grid grid;
 
-    public Snake(int padding, int dimension) throws InterruptedException {
+    public Snake(GridPosition pos) throws InterruptedException {
         initKeyboard();
+
+        this.pos = pos;
+        pos.setColor(GridColor.GREEN);
     }
 
     private void initKeyboard() {

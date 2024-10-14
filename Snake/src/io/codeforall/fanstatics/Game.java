@@ -1,11 +1,12 @@
 package io.codeforall.fanstatics;
 
-import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import io.codeforall.fanstatics.snake.Snake;
 import io.codeforall.fanstatics.grid.*;
+import io.codeforall.fanstatics.snake.SnakeFactory;
 
 public class Game {
     private Grid grid;
+    private Snake snake;
 
     public Game(int cols, int rows) {
         this.grid = GridFactory.makeGrid(cols, rows);
@@ -13,6 +14,8 @@ public class Game {
 
     public void init(){
         this.grid.init();
+
+        this.snake = SnakeFactory.getNewSnake(this.grid);
     }
 
 }
