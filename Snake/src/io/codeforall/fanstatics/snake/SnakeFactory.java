@@ -1,13 +1,14 @@
 package io.codeforall.fanstatics.snake;
 
+import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGrid;
 import io.codeforall.fanstatics.grid.Grid;
 
 public class SnakeFactory {
 
-    public static Snake getNewSnake(Grid grid){
+    public static Snake getNewSnake(SimpleGfxGrid grid){
         Snake snake = null;
         try {
-            snake = new Snake(grid.makeGridPosition());
+            snake = new Snake(grid, grid.makeGridPosition());
         } catch (Exception ex){
             System.out.println(ex.getMessage());
         }

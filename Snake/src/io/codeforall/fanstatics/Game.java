@@ -1,15 +1,16 @@
 package io.codeforall.fanstatics;
 
+import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGrid;
 import io.codeforall.fanstatics.snake.Snake;
 import io.codeforall.fanstatics.grid.*;
 import io.codeforall.fanstatics.snake.SnakeFactory;
 
 public class Game {
-    private Grid grid;
+    private SimpleGfxGrid grid;
     private Snake snake;
 
     public Game(int cols, int rows) {
-        this.grid = GridFactory.makeGrid(cols, rows);
+        this.grid = SimpleGfxGridFactory.makeGrid(cols, rows);
     }
 
     public void init(){

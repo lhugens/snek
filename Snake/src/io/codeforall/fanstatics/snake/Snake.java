@@ -1,5 +1,7 @@
 package io.codeforall.fanstatics.snake;
 
+import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGrid;
+import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGridPosition;
 import io.codeforall.fanstatics.grid.Grid;
 import io.codeforall.fanstatics.grid.GridColor;
 import io.codeforall.fanstatics.grid.position.GridPosition;
@@ -16,13 +18,25 @@ import java.security.Key;
 public class Snake implements KeyboardHandler {
     public Keyboard keyboard;
     private GridPosition pos;
-    private Grid grid;
+    private SimpleGfxGrid grid;
+    private int length;
+    private GridPosition[] body;
 
-    public Snake(GridPosition pos) throws InterruptedException {
+    public Snake(SimpleGfxGrid grid, GridPosition pos) throws InterruptedException {
+        this.grid = grid;
         initKeyboard();
+
+        this.length = 3;
 
         this.pos = pos;
         pos.setColor(GridColor.GREEN);
+
+        this.body = new SimpleGfxGridPosition[this.length];
+
+        for (int i = 0; i < this.length; i++) {
+            body[i] = this.grid.makeGridPosition(this.pos.getCol(), this.pos.getRow()-i);
+            body[i].setColor(GridColor.GREEN);
+        }
     }
 
     private void initKeyboard() {
