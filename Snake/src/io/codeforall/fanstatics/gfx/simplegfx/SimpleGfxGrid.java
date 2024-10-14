@@ -90,7 +90,7 @@ public class SimpleGfxGrid implements Grid {
      * @see Grid#makeGridPosition()
      */
     @Override
-    public GridPosition makeGridPosition() {
+    public SimpleGfxGridPosition makeGridPosition() {
         return new SimpleGfxGridPosition(this);
     }
 

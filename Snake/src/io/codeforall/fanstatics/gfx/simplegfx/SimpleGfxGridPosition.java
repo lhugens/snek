@@ -14,9 +14,10 @@ import java.awt.*;
  */
 public class SimpleGfxGridPosition extends AbstractGridPosition {
 
-    private Rectangle rectangle;
+    public Rectangle rectangle;
     private SimpleGfxGrid simpleGfxGrid;
     private SimpleGfxGrid grid;
+    public GridDirection lastDirection;
 
     /**
      * Simple graphics position constructor
