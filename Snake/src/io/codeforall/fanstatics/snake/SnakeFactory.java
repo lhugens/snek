@@ -1,7 +1,6 @@
 package io.codeforall.fanstatics.snake;
 
 import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGrid;
-import io.codeforall.fanstatics.grid.Grid;
 
 public class SnakeFactory {
 
