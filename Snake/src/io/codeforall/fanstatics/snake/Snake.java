@@ -15,7 +15,7 @@ public class Snake implements KeyboardHandler {
     public SimpleGfxGridPosition pos;
     private SimpleGfxGrid grid;
     private int length;
-    private SimpleGfxGridPosition[] body;
+    public SimpleGfxGridPosition[] body;
 
     public Snake(SimpleGfxGrid grid, SimpleGfxGridPosition pos) throws InterruptedException {
         this.grid = grid;
