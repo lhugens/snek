@@ -1,5 +1,8 @@
 package io.codeforall.fanstatics.snake;
 
+import io.codeforall.fanstatics.Eat;
+import io.codeforall.fanstatics.apple.Apple;
+import io.codeforall.fanstatics.apple.AppleFactory;
 import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGrid;
 import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGridPosition;
 import io.codeforall.fanstatics.grid.GridColor;
@@ -16,6 +19,7 @@ public class Snake implements KeyboardHandler {
     private SimpleGfxGrid grid;
     private int length;
     public SimpleGfxGridPosition[] body;
+    private Apple apple;
 
     public Snake(SimpleGfxGrid grid, SimpleGfxGridPosition pos) throws InterruptedException {
         this.grid = grid;
@@ -34,6 +38,10 @@ public class Snake implements KeyboardHandler {
             body[i].setColor(GridColor.GREEN);
             body[i].lastDirection = GridDirection.DOWN;
         }
+    }
+
+    public void addApple(Apple apple) {
+        this.apple = apple;
     }
 
     public void move(GridDirection direction) {
@@ -106,7 +114,9 @@ public class Snake implements KeyboardHandler {
                 }
                 break;
         }
-
+        if (Eat.hasEaten(this, this.apple)) {
+            this.apple = AppleFactory.getNewApple(this.grid, this);
+        }
     }
 
     @Override
