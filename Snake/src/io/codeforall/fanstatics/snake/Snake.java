@@ -30,34 +30,29 @@ public class Snake implements KeyboardHandler {
         this.body = new SimpleGfxGridPosition[this.length];
 
         for (int i = 0; i < this.length; i++) {
-            body[i] = (SimpleGfxGridPosition) this.grid.makeGridPosition(this.pos.getCol(), this.pos.getRow()-i-1);
+            body[i] = (SimpleGfxGridPosition) this.grid.makeGridPosition(this.pos.getCol(), this.pos.getRow() - i - 1);
             body[i].setColor(GridColor.GREEN);
             body[i].lastDirection = GridDirection.DOWN;
         }
     }
 
     public void move(GridDirection direction) {
-        // Store the current position and direction of the head before moving
         GridDirection prevDir = this.pos.lastDirection;
         this.pos.moveInDirection(direction, 1);
         this.pos.lastDirection = direction;
 
-        // Store the previous direction of the first body part (to follow the head)
         GridDirection prevBodyDir = this.body[0].lastDirection;
 
-        // Move the first body part to follow the head's previous position
         this.body[0].moveInDirection(prevDir, 1);
         this.body[0].lastDirection = prevDir;
 
-        // Move the rest of the body parts to follow the one in front of them
         for (int i = 1; i < this.body.length; i++) {
-            GridDirection tempDir = this.body[i].lastDirection;  // Store the current direction
-            this.body[i].moveInDirection(prevBodyDir, 1);  // Move to the previous part's direction
-            this.body[i].lastDirection = prevBodyDir;  // Update to follow the previous part
-            prevBodyDir = tempDir;  // Move to the next part
+            GridDirection tempDir = this.body[i].lastDirection;
+            this.body[i].moveInDirection(prevBodyDir, 1);
+            this.body[i].lastDirection = prevBodyDir;
+            prevBodyDir = tempDir;
         }
     }
-
 
     private void initKeyboard() {
         this.keyboard = new Keyboard(this);
@@ -91,18 +86,27 @@ public class Snake implements KeyboardHandler {
     public void keyPressed(KeyboardEvent keyboardEvent) {
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_RIGHT:
-                move(GridDirection.RIGHT);
+                if (!(this.pos.getCol() * this.grid.getCellSize() > this.grid.getCols() * this.grid.getCellSize() - SimpleGfxGrid.PADDING)) {
+                    move(GridDirection.RIGHT);
+                }
                 break;
             case KeyboardEvent.KEY_LEFT:
-                move(GridDirection.LEFT);
+                if (!((this.pos.getCol() + 1) * this.grid.getCellSize() < SimpleGfxGrid.PADDING)) {
+                    move(GridDirection.LEFT);
+                }
                 break;
             case KeyboardEvent.KEY_UP:
-                move(GridDirection.UP);
+                if (!((this.pos.getRow() + 1) * this.grid.getCellSize() < SimpleGfxGrid.PADDING)) {
+                    move(GridDirection.UP);
+                }
                 break;
             case KeyboardEvent.KEY_DOWN:
-                move(GridDirection.DOWN);
+                if (!(this.pos.getRow() * this.grid.getCellSize() > this.grid.getRows() * this.grid.getCellSize() - SimpleGfxGrid.PADDING)) {
+                    move(GridDirection.DOWN);
+                }
                 break;
         }
+
     }
 
     @Override
