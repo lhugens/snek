@@ -1,15 +1,18 @@
 package io.codeforall.fanstatics.gfx.simplegfx;
 
 import io.codeforall.fanstatics.grid.Grid;
+import io.codeforall.fanstatics.grid.GridColor;
 import io.codeforall.fanstatics.grid.position.GridPosition;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
 public class SimpleGfxGrid implements Grid {
 
-    public static final int PADDING = 10;
+    public static final int PADDING = 40;
     public int cols;
     public int rows;
+
+    public Rectangle rectangle;
 
     public SimpleGfxGrid(int cols, int rows){
         this.cols = cols;
@@ -21,8 +24,10 @@ public class SimpleGfxGrid implements Grid {
      */
     @Override
     public void init() {
-        Rectangle rectangle = new Rectangle(PADDING, PADDING, this.cols*this.getCellSize(), this.rows*this.getCellSize());
-        rectangle.draw();
+        this.rectangle = new Rectangle(PADDING, PADDING, this.cols*this.getCellSize(), this.rows*this.getCellSize());
+        this.rectangle.setColor(Color.BLACK);
+        this.rectangle.draw();
+        this.rectangle.fill();
     }
 
     /**
