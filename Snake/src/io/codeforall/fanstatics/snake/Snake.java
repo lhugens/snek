@@ -12,7 +12,7 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
 public class Snake implements KeyboardHandler {
     public Keyboard keyboard;
-    private SimpleGfxGridPosition pos;
+    public SimpleGfxGridPosition pos;
     private SimpleGfxGrid grid;
     private int length;
     private SimpleGfxGridPosition[] body;
