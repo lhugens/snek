@@ -10,7 +10,9 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import java.awt.*;
 
 public class Snake implements KeyboardHandler {
+    private boolean stared;
     int dimension;
+    int padding;
     private Rectangle head;
     private int cellSize;
     private Rectangle[] body;
@@ -21,17 +23,19 @@ public class Snake implements KeyboardHandler {
     public Keyboard keyboard;
     private Direction direction;
 
-    public Snake(int dimension) throws InterruptedException{
+    public Snake(int padding, int dimension) throws InterruptedException {
+        this.stared = false;
         this.dimension = dimension;
+        this.padding = padding;
         this.speed = 5;
-        this.size = 10;
+        this.size = 5;
         this.cellSize = 10;
         this.body = new Rectangle[this.size];
-        this.direction = Direction.UP;
+        this.direction = Direction.DOWN;
 
         this.headCoords = new int[2];
-        this.headCoords[0] = (int) (Math.random() * 200);
-        this.headCoords[1] = (int) (Math.random() * 200);
+        this.headCoords[0] = this.padding + this.size*this.cellSize;
+        this.headCoords[1] = this.padding + this.size*this.cellSize;
         this.oldCoords = new int[2];
         this.oldCoords[0] = this.headCoords[0];
         this.oldCoords[1] = this.headCoords[1];
@@ -50,7 +54,7 @@ public class Snake implements KeyboardHandler {
 
         initKeyboard();
 
-        while(true){
+        while (true) {
             move(this.direction);
             Thread.sleep(20);
         }
@@ -102,72 +106,76 @@ public class Snake implements KeyboardHandler {
         this.keyboard.addEventListener(moveDown);
     }
 
-    private void boundaryConditions(){
-        if(this.headCoords[0] < 0){
+    private void boundaryConditions() {
+        if (this.headCoords[0] < this.padding) {
             this.headCoords[0] = this.dimension;
-        } else if(this.headCoords[0] > this.dimension){
-            this.headCoords[0] = 0;
-        } else if (this.headCoords[1] < 0) {
+        } else if (this.headCoords[0] > this.dimension) {
+            this.headCoords[0] = this.padding;
+        } else if (this.headCoords[1] < this.padding) {
             this.headCoords[1] = this.dimension;
-        } else if(this.headCoords[1] > this.dimension){
-            this.headCoords[1] = 0;
+        } else if (this.headCoords[1] > this.dimension) {
+            this.headCoords[1] = this.padding;
         }
     }
 
-    private void move(Direction direction){
-        this.oldCoords[0] = this.headCoords[0];
-        this.oldCoords[1] = this.headCoords[1];
+    private void move(Direction direction) {
+        if (this.stared) {
 
-        switch (direction){
-            case RIGHT:
-                if(this.direction != Direction.LEFT) {
-                    headCoords[0] += this.speed;
-                    boundaryConditions();
-                    this.head.translate(this.headCoords[0] - this.head.getX(), 0);
-                    this.direction = Direction.RIGHT;
-                    this.moveBody(this.oldCoords);
-                } else {
-                    move(this.direction);
-                }
-                break;
-            case LEFT:
-                if(this.direction != Direction.RIGHT){
-                    headCoords[0] -= this.speed;
-                    boundaryConditions();
-                    this.head.translate(this.headCoords[0] - this.head.getX(), 0);
-                    this.direction = Direction.LEFT;
-                    this.moveBody(this.oldCoords);
-                } else {
-                    move(this.direction);
-                }
-                break;
-            case UP:
-                if(this.direction != Direction.DOWN){
-                    headCoords[1] -= this.speed;
-                    boundaryConditions();
-                    this.head.translate(0, this.headCoords[1] - this.head.getY());
-                    this.direction = Direction.UP;
-                    this.moveBody(this.oldCoords);
-                } else {
-                    move(this.direction);
-                }
-                break;
-            case DOWN:
-                if(this.direction != Direction.UP){
-                    headCoords[1] += this.speed;
-                    boundaryConditions();
-                    this.head.translate(0, this.headCoords[1] - this.head.getY());
-                    this.direction = Direction.DOWN;
-                    this.moveBody(this.oldCoords);
-                } else {
-                    move(this.direction);
-                }
-                break;
+            this.oldCoords[0] = this.headCoords[0];
+            this.oldCoords[1] = this.headCoords[1];
+
+            switch (direction) {
+                case RIGHT:
+                    if (this.direction != Direction.LEFT) {
+                        headCoords[0] += this.speed;
+                        boundaryConditions();
+                        this.head.translate(this.headCoords[0] - this.head.getX(), 0);
+                        this.direction = Direction.RIGHT;
+                        this.moveBody(this.oldCoords);
+                    } else {
+                        move(this.direction);
+                    }
+                    break;
+                case LEFT:
+                    if (this.direction != Direction.RIGHT) {
+                        headCoords[0] -= this.speed;
+                        boundaryConditions();
+                        this.head.translate(this.headCoords[0] - this.head.getX(), 0);
+                        this.direction = Direction.LEFT;
+                        this.moveBody(this.oldCoords);
+                    } else {
+                        move(this.direction);
+                    }
+                    break;
+                case UP:
+                    if (this.direction != Direction.DOWN) {
+                        headCoords[1] -= this.speed;
+                        boundaryConditions();
+                        this.head.translate(0, this.headCoords[1] - this.head.getY());
+                        this.direction = Direction.UP;
+                        this.moveBody(this.oldCoords);
+                    } else {
+                        move(this.direction);
+                    }
+                    break;
+                case DOWN:
+                    if (this.direction != Direction.UP) {
+                        headCoords[1] += this.speed;
+                        boundaryConditions();
+                        this.head.translate(0, this.headCoords[1] - this.head.getY());
+                        this.direction = Direction.DOWN;
+                        this.moveBody(this.oldCoords);
+                    } else {
+                        move(this.direction);
+                    }
+                    break;
+            }
         }
     }
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
+        this.stared = true;
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_RIGHT:
                 move(Direction.RIGHT);

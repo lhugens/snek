@@ -37,4 +37,8 @@ bin/
 .DS_Store
 
 ### iml ###
-.iml
+*.iml
+*/*.iml
+*/*/*.iml
+*/*/*/*.iml
+*/*/*/*/*.iml
