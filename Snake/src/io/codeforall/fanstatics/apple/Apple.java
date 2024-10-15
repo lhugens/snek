@@ -1,18 +1,25 @@
-package io.codeforall.fanstatics;
+package io.codeforall.fanstatics.apple;
 
+import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGrid;
+import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGridPosition;
+import io.codeforall.fanstatics.grid.GridColor;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Apple {
-    private int xCoord;
-    private int yCoord;
-    private Rectangle rectangle;
+    private SimpleGfxGrid grid;
+    public SimpleGfxGridPosition pos;
 
-    public Apple(int padding, int xLimit, int yLimit) {
-        this.rectangle = new Rectangle(padding + (int) (Math.random() * xLimit), padding + (int) (Math.random() * yLimit), 10, 10);
-        this.rectangle.setColor(Color.RED);
-        this.rectangle.fill();
+    public Apple(SimpleGfxGrid grid, SimpleGfxGridPosition pos) {
+        this.grid = grid;
+        this.pos = pos;
+
+        this.pos.setColor(GridColor.RED);
+    }
+
+    public void delete(){
+        this.pos.hide();
     }
 
 }
