@@ -28,7 +28,7 @@ public class Snake implements KeyboardHandler {
     private int score;
 
     public Snake(SimpleGfxGrid grid, SimpleGfxGridPosition pos) throws InterruptedException {
-        this.text = new Text( SimpleGfxGrid.PADDING,0, "Score: 0");
+        this.text = new Text(SimpleGfxGrid.PADDING, 0, "Score: 0");
         this.text.draw();
 
         this.score = 0;
@@ -51,6 +51,16 @@ public class Snake implements KeyboardHandler {
         }
     }
 
+    public void run() throws InterruptedException {
+        while (true) {
+            try {
+                tryMove(this.pos.lastDirection);
+                Thread.sleep(125);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
 
     public void addApple(Apple apple) {
         this.apple = apple;
@@ -74,7 +84,53 @@ public class Snake implements KeyboardHandler {
         }
     }
 
-    public void grow(int col, int row){
+    public void tryMove(GridDirection direction) {
+        int tailCol = this.body.get(this.body.size() - 1).getCol();
+        int tailRow = this.body.get(this.body.size() - 1).getRow();
+        switch (direction) {
+            case RIGHT:
+                if (!(this.pos.getCol() * this.grid.getCellSize() > this.grid.getCols() * this.grid.getCellSize() - SimpleGfxGrid.PADDING)) {
+                    if (this.pos.lastDirection != GridDirection.LEFT) {
+                        move(GridDirection.RIGHT);
+                    }
+                }
+                break;
+            case LEFT:
+                if (!((this.pos.getCol() + 1) * this.grid.getCellSize() < SimpleGfxGrid.PADDING)) {
+                    if (this.pos.lastDirection != GridDirection.RIGHT) {
+                        move(GridDirection.LEFT);
+                    }
+                }
+                break;
+            case UP:
+                if (!((this.pos.getRow() + 1) * this.grid.getCellSize() < SimpleGfxGrid.PADDING)) {
+                    if (this.pos.lastDirection != GridDirection.DOWN) {
+                        move(GridDirection.UP);
+                    }
+                }
+                break;
+            case DOWN:
+                if (!(this.pos.getRow() * this.grid.getCellSize() > this.grid.getRows() * this.grid.getCellSize() - SimpleGfxGrid.PADDING)) {
+                    if (this.pos.lastDirection != GridDirection.UP) {
+                        move(GridDirection.DOWN);
+                    }
+                }
+                break;
+        }
+        if (this.hasEatenInLastMove) {
+            this.grow(tailCol, tailRow);
+            this.hasEatenInLastMove = false;
+        }
+        if (this.pos.getCol() == this.apple.pos.getCol() && this.pos.getRow() == this.apple.pos.getRow()) {
+            this.score++;
+            this.hasEatenInLastMove = true;
+            this.apple.delete();
+            this.apple = AppleFactory.getNewApple(this.grid, this);
+            this.text.setText("Score: " + this.score);
+        }
+    }
+
+    public void grow(int col, int row) {
         this.body.add((SimpleGfxGridPosition) this.grid.makeGridPosition(col, row));
     }
 
@@ -108,48 +164,19 @@ public class Snake implements KeyboardHandler {
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
-        int tailCol = this.body.get(this.body.size()-1).getCol();
-        int tailRow = this.body.get(this.body.size()-1).getRow();
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_RIGHT:
-                if (!(this.pos.getCol() * this.grid.getCellSize() > this.grid.getCols() * this.grid.getCellSize() - SimpleGfxGrid.PADDING)) {
-                    if(this.pos.lastDirection != GridDirection.LEFT){
-                        move(GridDirection.RIGHT);
-                    }
-                }
+                tryMove(GridDirection.RIGHT);
                 break;
             case KeyboardEvent.KEY_LEFT:
-                if (!((this.pos.getCol() + 1) * this.grid.getCellSize() < SimpleGfxGrid.PADDING)) {
-                    if(this.pos.lastDirection != GridDirection.RIGHT){
-                        move(GridDirection.LEFT);
-                    }
-                }
+                tryMove(GridDirection.LEFT);
                 break;
             case KeyboardEvent.KEY_UP:
-                if (!((this.pos.getRow() + 1) * this.grid.getCellSize() < SimpleGfxGrid.PADDING)) {
-                    if(this.pos.lastDirection != GridDirection.DOWN){
-                        move(GridDirection.UP);
-                    }
-                }
+                tryMove(GridDirection.UP);
                 break;
             case KeyboardEvent.KEY_DOWN:
-                if (!(this.pos.getRow() * this.grid.getCellSize() > this.grid.getRows() * this.grid.getCellSize() - SimpleGfxGrid.PADDING)) {
-                    if(this.pos.lastDirection != GridDirection.UP){
-                        move(GridDirection.DOWN);
-                    }
-                }
+                tryMove(GridDirection.DOWN);
                 break;
-        }
-        if(this.hasEatenInLastMove){
-           this.grow(tailCol, tailRow);
-           this.hasEatenInLastMove = false;
-        }
-        if (this.pos.getCol() == this.apple.pos.getCol() && this.pos.getRow() == this.apple.pos.getRow()) {
-            this.score++;
-            this.hasEatenInLastMove = true;
-            this.apple.delete();
-            this.apple = AppleFactory.getNewApple(this.grid, this);
-            this.text.setText("Score: " + this.score);
         }
     }
 

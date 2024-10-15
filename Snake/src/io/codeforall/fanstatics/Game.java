@@ -23,6 +23,11 @@ public class Game {
         this.snake = SnakeFactory.getNewSnake(this.grid);
         this.apple = AppleFactory.getNewApple(this.grid, this.snake);
         this.snake.addApple(this.apple);
+        try {
+            this.snake.run();
+        } catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
 }
