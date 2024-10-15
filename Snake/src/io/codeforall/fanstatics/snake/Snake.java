@@ -20,8 +20,10 @@ public class Snake implements KeyboardHandler {
     private int length;
     public ArrayList<SimpleGfxGridPosition> body;
     private Apple apple;
+    private boolean hasEatenInLastMove;
 
     public Snake(SimpleGfxGrid grid, SimpleGfxGridPosition pos) throws InterruptedException {
+        this.hasEatenInLastMove = false;
         this.grid = grid;
         initKeyboard();
 
@@ -62,8 +64,8 @@ public class Snake implements KeyboardHandler {
         }
     }
 
-    public void grow(){
-
+    public void grow(int col, int row){
+        this.body.add((SimpleGfxGridPosition) this.grid.makeGridPosition(col, row));
     }
 
     private void initKeyboard() {
@@ -96,6 +98,8 @@ public class Snake implements KeyboardHandler {
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
+        int tailCol = this.body.get(this.body.size()-1).getCol();
+        int tailRow = this.body.get(this.body.size()-1).getRow();
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_RIGHT:
                 if (!(this.pos.getCol() * this.grid.getCellSize() > this.grid.getCols() * this.grid.getCellSize() - SimpleGfxGrid.PADDING)) {
@@ -118,7 +122,12 @@ public class Snake implements KeyboardHandler {
                 }
                 break;
         }
+        if(this.hasEatenInLastMove){
+           this.grow(tailCol, tailRow);
+           this.hasEatenInLastMove = false;
+        }
         if (this.pos.getCol() == this.apple.pos.getCol() && this.pos.getRow() == this.apple.pos.getRow()) {
+            this.hasEatenInLastMove = true;
             this.apple.delete();
             this.apple = AppleFactory.getNewApple(this.grid, this);
         }
