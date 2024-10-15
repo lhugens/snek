@@ -8,10 +8,12 @@ import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGrid;
 import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGridPosition;
 import io.codeforall.fanstatics.grid.GridColor;
 import io.codeforall.fanstatics.grid.GridDirection;
+
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 
 public class Snake implements KeyboardHandler {
     public Keyboard keyboard;
@@ -21,8 +23,14 @@ public class Snake implements KeyboardHandler {
     public ArrayList<SimpleGfxGridPosition> body;
     private Apple apple;
     private boolean hasEatenInLastMove;
+    private Text text;
+    private int score;
 
     public Snake(SimpleGfxGrid grid, SimpleGfxGridPosition pos) throws InterruptedException {
+        this.text = new Text( SimpleGfxGrid.PADDING,0, "Score: 0");
+        this.text.draw();
+
+        this.score = 0;
         this.hasEatenInLastMove = false;
         this.grid = grid;
         initKeyboard();
@@ -41,6 +49,7 @@ public class Snake implements KeyboardHandler {
             body.get(i).lastDirection = GridDirection.DOWN;
         }
     }
+
 
     public void addApple(Apple apple) {
         this.apple = apple;
@@ -127,9 +136,11 @@ public class Snake implements KeyboardHandler {
            this.hasEatenInLastMove = false;
         }
         if (this.pos.getCol() == this.apple.pos.getCol() && this.pos.getRow() == this.apple.pos.getRow()) {
+            this.score++;
             this.hasEatenInLastMove = true;
             this.apple.delete();
             this.apple = AppleFactory.getNewApple(this.grid, this);
+            this.text.setText("Score: " + this.score);
         }
     }
 
