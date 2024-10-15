@@ -1,13 +1,11 @@
 package io.codeforall.fanstatics.snake;
 
-import io.codeforall.fanstatics.Eat;
 import io.codeforall.fanstatics.apple.Apple;
 import io.codeforall.fanstatics.apple.AppleFactory;
 import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGrid;
 import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGridPosition;
 import io.codeforall.fanstatics.grid.GridColor;
 import io.codeforall.fanstatics.grid.GridDirection;
-import io.codeforall.fanstatics.grid.position.GridPosition;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -114,7 +112,8 @@ public class Snake implements KeyboardHandler {
                 }
                 break;
         }
-        if (Eat.hasEaten(this, this.apple)) {
+        if (this.pos.getCol() == this.apple.pos.getCol() && this.pos.getRow() == this.apple.pos.getRow()) {
+            this.apple.delete();
             this.apple = AppleFactory.getNewApple(this.grid, this);
         }
     }
