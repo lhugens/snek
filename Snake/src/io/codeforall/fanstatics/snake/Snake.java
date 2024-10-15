@@ -6,6 +6,7 @@ import io.codeforall.fanstatics.apple.Apple;
 import io.codeforall.fanstatics.apple.AppleFactory;
 import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGrid;
 import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGridPosition;
+import io.codeforall.fanstatics.grid.Grid;
 import io.codeforall.fanstatics.grid.GridColor;
 import io.codeforall.fanstatics.grid.GridDirection;
 
@@ -112,22 +113,30 @@ public class Snake implements KeyboardHandler {
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_RIGHT:
                 if (!(this.pos.getCol() * this.grid.getCellSize() > this.grid.getCols() * this.grid.getCellSize() - SimpleGfxGrid.PADDING)) {
-                    move(GridDirection.RIGHT);
+                    if(this.pos.lastDirection != GridDirection.LEFT){
+                        move(GridDirection.RIGHT);
+                    }
                 }
                 break;
             case KeyboardEvent.KEY_LEFT:
                 if (!((this.pos.getCol() + 1) * this.grid.getCellSize() < SimpleGfxGrid.PADDING)) {
-                    move(GridDirection.LEFT);
+                    if(this.pos.lastDirection != GridDirection.RIGHT){
+                        move(GridDirection.LEFT);
+                    }
                 }
                 break;
             case KeyboardEvent.KEY_UP:
                 if (!((this.pos.getRow() + 1) * this.grid.getCellSize() < SimpleGfxGrid.PADDING)) {
-                    move(GridDirection.UP);
+                    if(this.pos.lastDirection != GridDirection.DOWN){
+                        move(GridDirection.UP);
+                    }
                 }
                 break;
             case KeyboardEvent.KEY_DOWN:
                 if (!(this.pos.getRow() * this.grid.getCellSize() > this.grid.getRows() * this.grid.getCellSize() - SimpleGfxGrid.PADDING)) {
-                    move(GridDirection.DOWN);
+                    if(this.pos.lastDirection != GridDirection.UP){
+                        move(GridDirection.DOWN);
+                    }
                 }
                 break;
         }
