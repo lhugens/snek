@@ -10,6 +10,7 @@ import io.codeforall.fanstatics.grid.Grid;
 import io.codeforall.fanstatics.grid.GridColor;
 import io.codeforall.fanstatics.grid.GridDirection;
 
+import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -25,9 +26,13 @@ public class Snake implements KeyboardHandler {
     private Apple apple;
     private boolean hasEatenInLastMove;
     private Text text;
+    private Text gameOverText;
     private int score;
 
-    public Snake(SimpleGfxGrid grid, SimpleGfxGridPosition pos) throws InterruptedException {
+    private boolean gameOver;
+
+    public Snake(SimpleGfxGrid grid, SimpleGfxGridPosition pos){
+        this.gameOver = false;
         this.text = new Text(SimpleGfxGrid.PADDING, 0, "Score: 0");
         this.text.draw();
 
@@ -52,14 +57,29 @@ public class Snake implements KeyboardHandler {
     }
 
     public void run() throws InterruptedException {
-        while (true) {
+        while (!this.gameOver) {
             try {
                 tryMove(this.pos.lastDirection);
+                this.checkOverlap();
                 Thread.sleep(125);
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
         }
+        this.gameOverText = new Text(this.grid.getCols()/2*this.grid.getCellSize(), this.grid.getRows()/2*this.grid.getCellSize(), "GameOver");
+        this.gameOverText.grow(this.grid.getCellSize()*15,this.grid.getCellSize()*5);
+        this.gameOverText.setColor(Color.WHITE);
+        this.gameOverText.draw();
+    }
+
+    public void checkOverlap(){
+        for(SimpleGfxGridPosition bodyPos : this.body){
+            if(bodyPos.getCol() == this.pos.getCol() && bodyPos.getRow() == this.pos.getRow()){
+                this.gameOver = true;
+                return;
+            }
+        }
+        return;
     }
 
     public void addApple(Apple apple) {
@@ -85,6 +105,9 @@ public class Snake implements KeyboardHandler {
     }
 
     public void tryMove(GridDirection direction) {
+        if(this.gameOver){
+            return;
+        }
         int tailCol = this.body.get(this.body.size() - 1).getCol();
         int tailRow = this.body.get(this.body.size() - 1).getRow();
         switch (direction) {
