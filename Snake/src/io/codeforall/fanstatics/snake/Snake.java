@@ -41,7 +41,7 @@ public class Snake implements KeyboardHandler {
         this.grid = grid;
         initKeyboard();
 
-        this.length = 3;
+        this.length = 1;
 
         this.pos = pos;
         this.pos.lastDirection = GridDirection.DOWN;
@@ -66,7 +66,7 @@ public class Snake implements KeyboardHandler {
                 System.out.println(ex.getMessage());
             }
         }
-        this.gameOverText = new Text(this.grid.getCols()/2*this.grid.getCellSize(), this.grid.getRows()/2*this.grid.getCellSize(), "GameOver");
+        this.gameOverText = new Text(this.grid.getCols()/2*this.grid.getCellSize(), this.grid.getRows()/2*this.grid.getCellSize(), "Game Over");
         this.gameOverText.grow(this.grid.getCellSize()*15,this.grid.getCellSize()*5);
         this.gameOverText.setColor(Color.WHITE);
         this.gameOverText.draw();
@@ -112,10 +112,15 @@ public class Snake implements KeyboardHandler {
         int tailRow = this.body.get(this.body.size() - 1).getRow();
         switch (direction) {
             case RIGHT:
+
                 if (!(this.pos.getCol() * this.grid.getCellSize() > this.grid.getCols() * this.grid.getCellSize() - SimpleGfxGrid.PADDING)) {
                     if (this.pos.lastDirection != GridDirection.LEFT) {
                         move(GridDirection.RIGHT);
                     }
+
+                }
+                else {
+                    this.gameOver = true;
                 }
                 break;
             case LEFT:
@@ -124,6 +129,9 @@ public class Snake implements KeyboardHandler {
                         move(GridDirection.LEFT);
                     }
                 }
+                else {
+                    this.gameOver = true;
+                }
                 break;
             case UP:
                 if (!((this.pos.getRow() + 1) * this.grid.getCellSize() < SimpleGfxGrid.PADDING)) {
@@ -131,12 +139,18 @@ public class Snake implements KeyboardHandler {
                         move(GridDirection.UP);
                     }
                 }
+                else {
+                    this.gameOver = true;
+                }
                 break;
             case DOWN:
                 if (!(this.pos.getRow() * this.grid.getCellSize() > this.grid.getRows() * this.grid.getCellSize() - SimpleGfxGrid.PADDING)) {
                     if (this.pos.lastDirection != GridDirection.UP) {
                         move(GridDirection.DOWN);
                     }
+                }
+                else {
+                    this.gameOver = true;
                 }
                 break;
         }
