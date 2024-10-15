@@ -1,5 +1,7 @@
 package io.codeforall.fanstatics.snake;
 
+import java.util.ArrayList;
+
 import io.codeforall.fanstatics.apple.Apple;
 import io.codeforall.fanstatics.apple.AppleFactory;
 import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGrid;
@@ -16,7 +18,7 @@ public class Snake implements KeyboardHandler {
     public SimpleGfxGridPosition pos;
     private SimpleGfxGrid grid;
     private int length;
-    public SimpleGfxGridPosition[] body;
+    public ArrayList<SimpleGfxGridPosition> body;
     private Apple apple;
 
     public Snake(SimpleGfxGrid grid, SimpleGfxGridPosition pos) throws InterruptedException {
@@ -29,12 +31,12 @@ public class Snake implements KeyboardHandler {
         this.pos.lastDirection = GridDirection.DOWN;
         pos.setColor(GridColor.GREEN);
 
-        this.body = new SimpleGfxGridPosition[this.length];
+        this.body = new ArrayList<>(this.length);
 
         for (int i = 0; i < this.length; i++) {
-            body[i] = (SimpleGfxGridPosition) this.grid.makeGridPosition(this.pos.getCol(), this.pos.getRow() - i - 1);
-            body[i].setColor(GridColor.GREEN);
-            body[i].lastDirection = GridDirection.DOWN;
+            body.add((SimpleGfxGridPosition) this.grid.makeGridPosition(this.pos.getCol(), this.pos.getRow() - i - 1));
+            body.get(i).setColor(GridColor.GREEN);
+            body.get(i).lastDirection = GridDirection.DOWN;
         }
     }
 
@@ -47,17 +49,21 @@ public class Snake implements KeyboardHandler {
         this.pos.moveInDirection(direction, 1);
         this.pos.lastDirection = direction;
 
-        GridDirection prevBodyDir = this.body[0].lastDirection;
+        GridDirection prevBodyDir = this.body.get(0).lastDirection;
 
-        this.body[0].moveInDirection(prevDir, 1);
-        this.body[0].lastDirection = prevDir;
+        this.body.get(0).moveInDirection(prevDir, 1);
+        this.body.get(0).lastDirection = prevDir;
 
-        for (int i = 1; i < this.body.length; i++) {
-            GridDirection tempDir = this.body[i].lastDirection;
-            this.body[i].moveInDirection(prevBodyDir, 1);
-            this.body[i].lastDirection = prevBodyDir;
+        for (int i = 1; i < this.body.size(); i++) {
+            GridDirection tempDir = this.body.get(i).lastDirection;
+            this.body.get(i).moveInDirection(prevBodyDir, 1);
+            this.body.get(i).lastDirection = prevBodyDir;
             prevBodyDir = tempDir;
         }
+    }
+
+    public void grow(){
+
     }
 
     private void initKeyboard() {
