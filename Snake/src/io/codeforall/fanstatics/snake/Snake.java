@@ -26,7 +26,6 @@ public class Snake implements KeyboardHandler {
     private Apple apple;
     private boolean hasEatenInLastMove;
     private Text text;
-    private Text gameOverText;
     private int score;
 
     private boolean gameOver;
@@ -66,10 +65,7 @@ public class Snake implements KeyboardHandler {
                 System.out.println(ex.getMessage());
             }
         }
-        this.gameOverText = new Text(this.grid.getCols()/2*this.grid.getCellSize(), this.grid.getRows()/2*this.grid.getCellSize(), "Game Over");
-        this.gameOverText.grow(this.grid.getCellSize()*15,this.grid.getCellSize()*5);
-        this.gameOverText.setColor(Color.WHITE);
-        this.gameOverText.draw();
+
     }
 
     public void checkOverlap(){
@@ -112,7 +108,6 @@ public class Snake implements KeyboardHandler {
         int tailRow = this.body.get(this.body.size() - 1).getRow();
         switch (direction) {
             case RIGHT:
-
                 if (!(this.pos.getCol() * this.grid.getCellSize() > this.grid.getCols() * this.grid.getCellSize() - SimpleGfxGrid.PADDING)) {
                     if (this.pos.lastDirection != GridDirection.LEFT) {
                         move(GridDirection.RIGHT);
