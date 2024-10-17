@@ -5,7 +5,7 @@ import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Starting Snake...");
+        System.out.println("Starting Snake...sss....");
         Game game = new Game(40, 40);
         try {
             game.start();
