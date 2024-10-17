@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+
+<project name="Snake" default="jarfile">
+    <target name="init" description="Variables">
+        <property name="project.name" value="Snake"/>
+        <property name="source.dir" value="src"/>
+        <property name="build.dir" value="build"/>
+        <property name="classes.dir" value="${build.dir}/classes" />
+        <property name="main.class" value="io.codeforall.fanstatics.Main"/>
+        <property name="lib.dir" value="lib"/>
+        <path id="classpath">
+            <fileset dir="${lib.dir}" includes="**/*.jar" />
+        </path>
+    </target>
+
+    <target name="clean" description="Clean the project" depends="init">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="prepare" description="Create build and classes directories" depends="init">
+        <mkdir dir="${classes.dir}"/>
+    </target>
+
+    <target name="compile" description="Compiles the source code" depends="prepare">
+        <javac srcdir="${source.dir}" destdir="${classes.dir}">
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+
+    <target name="jarfile" description="Jarfile" depends="compile">
+        <jar destfile="${build.dir}/${project.name}.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Class-Path" value="${lib.dir}"/>
+            </manifest>
+            <zipgroupfileset dir="${lib.dir}" includes="*.jar"/>
+        </jar>
+    </target>
+</project>
