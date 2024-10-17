@@ -26,3 +26,6 @@ jobs:
 
       - name: Build with Ant
         run: ant build  # Change 'build' to your target defined in build.xml
+
+      - name: List files
+        run: ls -R
