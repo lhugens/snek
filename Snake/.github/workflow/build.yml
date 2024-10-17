@@ -1,0 +1,28 @@
+name: Build with Ant
+
+on:
+  push:
+    branches:
+      - main  # Change this to your target branch if different
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'  # Change to the version you need
+          distribution: 'adopt'
+
+      - name: Install Ant
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ant
+
+      - name: Build with Ant
+        run: ant build  # Change 'build' to your target defined in build.xml
