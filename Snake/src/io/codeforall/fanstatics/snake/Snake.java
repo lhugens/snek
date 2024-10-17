@@ -23,9 +23,9 @@ public class Snake implements KeyboardHandler {
     private SimpleGfxGrid grid;
     private int length;
     public ArrayList<SimpleGfxGridPosition> body;
-    private Apple apple;
+    public Apple apple;
     private boolean hasEatenInLastMove;
-    private Text text;
+    public Text text;
     private int score;
 
     private boolean gameOver;
@@ -156,7 +156,7 @@ public class Snake implements KeyboardHandler {
         if (this.pos.getCol() == this.apple.pos.getCol() && this.pos.getRow() == this.apple.pos.getRow()) {
             this.score++;
             this.hasEatenInLastMove = true;
-            this.apple.delete();
+            this.apple.pos.hide();
             this.apple = AppleFactory.getNewApple(this.grid, this);
             this.text.setText("Score: " + this.score);
         }
