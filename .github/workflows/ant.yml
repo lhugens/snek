@@ -21,7 +21,5 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-    - name:  List files
-      run: ls -R
     - name: Build with Ant
       run: ant -noinput -buildfile Snake/build.xml
