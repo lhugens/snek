@@ -1,7 +1,6 @@
 package io.codeforall.fanstatics.gfx.simplegfx;
 
 import io.codeforall.fanstatics.grid.Grid;
-import io.codeforall.fanstatics.grid.GridColor;
 import io.codeforall.fanstatics.grid.position.GridPosition;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
@@ -90,8 +89,8 @@ public class SimpleGfxGrid implements Grid {
      * @see Grid#makeGridPosition()
      */
     @Override
-    public SimpleGfxGridPosition makeGridPosition() {
-        return new SimpleGfxGridPosition(this);
+    public Picture makeGridPosition() {
+        return new Picture(this);
     }
 
     /**
@@ -99,7 +98,7 @@ public class SimpleGfxGrid implements Grid {
      */
     @Override
     public GridPosition makeGridPosition(int col, int row) {
-        return new SimpleGfxGridPosition(col, row, this);
+        return new Picture(col, row, this);
     }
 
     /**

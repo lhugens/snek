@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import io.codeforall.fanstatics.apple.Apple;
 import io.codeforall.fanstatics.apple.AppleFactory;
 import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGrid;
-import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGridPosition;
+import io.codeforall.fanstatics.gfx.simplegfx.Picture;
 import io.codeforall.fanstatics.grid.GridColor;
 import io.codeforall.fanstatics.grid.GridDirection;
 
@@ -17,10 +17,10 @@ import org.academiadecodigo.simplegraphics.graphics.Text;
 
 public class Snake implements KeyboardHandler {
     public Keyboard keyboard;
-    public SimpleGfxGridPosition pos;
+    public Picture pos;
     private SimpleGfxGrid grid;
     private int length;
-    public ArrayList<SimpleGfxGridPosition> body;
+    public ArrayList<Picture> body;
     public Apple apple;
     private boolean hasEatenInLastMove;
     public Text scoreText;
@@ -29,8 +29,25 @@ public class Snake implements KeyboardHandler {
     private int bestScore;
 
     private boolean gameOver;
+    private Picture head;
 
-    public Snake(SimpleGfxGrid grid, SimpleGfxGridPosition pos){
+
+
+    private String headRight = "rsc/images/images/head_right.png";
+    private String headLeft =  "rsc/images/images/head_left.png";
+    private String headUp = "rsc/images/images/head_up.png";
+    private String headDown =  "rsc/images/images/head_down.png";
+
+    private String bodyHorizontal = "rsc/images/images/body_horizontal.png";
+    private String bodyVertical ="rsc/images/images/body_vertical.png";
+
+    private String curve1 ="rsc/images/images/body_tr.png";
+    private String curve2 = "rsc/images/images/body_br.png";
+    private String curve3 = "rsc/images/images/body_bl.png";
+    private String curve4 = "rsc/images/images/body_tl.png";
+
+
+    public Snake(SimpleGfxGrid grid, Picture pos){
         this.grid = grid;
         this.gameOver = false;
 
@@ -47,14 +64,18 @@ public class Snake implements KeyboardHandler {
 
         this.length = 1;
 
-        this.pos = pos;
+       /* this.pos = pos;
         this.pos.lastDirection = GridDirection.DOWN;
         pos.setColor(GridColor.GREEN);
+        */
 
         this.body = new ArrayList<>(this.length);
+        head = new Picture(grid);
+        body.add(head);
 
         for (int i = 0; i < this.length; i++) {
-            body.add((SimpleGfxGridPosition) this.grid.makeGridPosition(this.pos.getCol(), this.pos.getRow() - i - 1));
+            // TEMOS DE MUDAR AQUI A NOSSA CABEÇA !!
+            body.add((Picture) this.grid.makeGridPosition(this.pos.getCol(), this.pos.getRow() - i - 1));
             body.get(i).setColor(GridColor.GREEN);
             body.get(i).lastDirection = GridDirection.DOWN;
         }
@@ -84,7 +105,7 @@ public class Snake implements KeyboardHandler {
     }
 
     public void checkOverlap(){
-        for(SimpleGfxGridPosition bodyPos : this.body){
+        for(Picture bodyPos : this.body){
             if(bodyPos.getCol() == this.pos.getCol() && bodyPos.getRow() == this.pos.getRow()){
                 this.gameOver = true;
                 return;
@@ -178,7 +199,7 @@ public class Snake implements KeyboardHandler {
     }
 
     public void grow(int col, int row) {
-        this.body.add((SimpleGfxGridPosition) this.grid.makeGridPosition(col, row));
+        this.body.add((Picture) this.grid.makeGridPosition(col, row));
     }
 
     private void initKeyboard() {

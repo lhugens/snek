@@ -1,7 +1,7 @@
 package io.codeforall.fanstatics.apple;
 
 import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGrid;
-import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGridPosition;
+import io.codeforall.fanstatics.gfx.simplegfx.Picture;
 import io.codeforall.fanstatics.grid.position.GridPosition;
 import io.codeforall.fanstatics.snake.Snake;
 
@@ -27,7 +27,7 @@ public class AppleFactory {
             }
         }
 
-        return new Apple(grid, (SimpleGfxGridPosition) pos);
+        return new Apple(grid, (Picture) pos);
     }
 
 }

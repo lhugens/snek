@@ -7,12 +7,10 @@ import io.codeforall.fanstatics.grid.GridColor;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
-import java.awt.*;
-
 /**
  * Simple graphics position
  */
-public class SimpleGfxGridPosition extends AbstractGridPosition {
+public class Picture extends AbstractGridPosition {
 
     public Rectangle rectangle;
     private SimpleGfxGrid simpleGfxGrid;
@@ -24,7 +22,7 @@ public class SimpleGfxGridPosition extends AbstractGridPosition {
      *
      * @param grid Simple graphics grid
      */
-    public SimpleGfxGridPosition(SimpleGfxGrid grid) {
+    public Picture(SimpleGfxGrid grid) {
         super((int) (Math.random() * grid.getCols()), (int) (Math.random() * grid.getRows()), grid);
         this.grid = grid;
         this.rectangle = new Rectangle(grid.columnToX(super.getCol()),
@@ -40,7 +38,7 @@ public class SimpleGfxGridPosition extends AbstractGridPosition {
      * @param row  position row
      * @param grid Simple graphics grid
      */
-    public SimpleGfxGridPosition(int col, int row, SimpleGfxGrid grid) {
+    public Picture(int col, int row, SimpleGfxGrid grid) {
         super(col, row, grid);
         this.grid = grid;
         this.rectangle = new Rectangle(grid.PADDING + col * grid.getCellSize(),
