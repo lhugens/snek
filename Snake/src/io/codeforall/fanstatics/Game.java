@@ -164,7 +164,7 @@ public class Game {
         }
         gameOverText.delete();
         this.snake.apple.pos.hide();
-        this.snake.text.delete();
+        this.snake.scoreText.delete();
         this.snake.pos.hide();
         for (int i = 0; i < this.snake.body.size(); i++) {
             this.snake.body.get(i).hide();

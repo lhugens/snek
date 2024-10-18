@@ -6,11 +6,9 @@ import io.codeforall.fanstatics.apple.Apple;
 import io.codeforall.fanstatics.apple.AppleFactory;
 import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGrid;
 import io.codeforall.fanstatics.gfx.simplegfx.SimpleGfxGridPosition;
-import io.codeforall.fanstatics.grid.Grid;
 import io.codeforall.fanstatics.grid.GridColor;
 import io.codeforall.fanstatics.grid.GridDirection;
 
-import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -25,21 +23,26 @@ public class Snake implements KeyboardHandler {
     public ArrayList<SimpleGfxGridPosition> body;
     public Apple apple;
     private boolean hasEatenInLastMove;
-    public Text text;
+    public Text scoreText;
+    private Text quitText;
     private int score;
     private int bestScore;
 
     private boolean gameOver;
 
     public Snake(SimpleGfxGrid grid, SimpleGfxGridPosition pos){
+        this.grid = grid;
         this.gameOver = false;
-        this.text = new Text(SimpleGfxGrid.PADDING, 0, "Score: 0");
-        this.text.draw();
+
+        this.scoreText = new Text(SimpleGfxGrid.PADDING, 0, "Score: 0");
+        this.scoreText.draw();
+
+        this.quitText = new Text( this.grid.getCols() * this.grid.getCellSize() - SimpleGfxGrid.PADDING*1.3, 0, "Press Q to quit");
+        this.quitText.draw();
 
         this.score = 0;
         this.bestScore = 0;
         this.hasEatenInLastMove = false;
-        this.grid = grid;
         initKeyboard();
 
         this.length = 1;
@@ -170,7 +173,7 @@ public class Snake implements KeyboardHandler {
             this.hasEatenInLastMove = true;
             this.apple.pos.hide();
             this.apple = AppleFactory.getNewApple(this.grid, this);
-            this.text.setText("Score: " + this.score);
+            this.scoreText.setText("Score: " + this.score);
         }
     }
 
