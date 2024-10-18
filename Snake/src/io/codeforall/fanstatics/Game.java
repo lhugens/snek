@@ -105,7 +105,7 @@ public class Game {
 
                 this.bestScoreText = new Text(this.grid.getCols() / 2 * this.grid.getCellSize() , (this.grid.getRows()+5) * 2/ 3* this.grid.getCellSize(), "Best score: " + score);
                 this.bestScoreText.grow(this.grid.getCellSize() * 2, this.grid.getCellSize());
-                this.bestScoreText.setColor(Color.WHITE);
+                this.bestScoreText.setColor(Color.MAGENTA);
                 this.bestScoreText.draw();
             }
 
