@@ -27,6 +27,7 @@ public class Snake implements KeyboardHandler {
     private boolean hasEatenInLastMove;
     public Text text;
     private int score;
+    private int bestScore;
 
     private boolean gameOver;
 
@@ -36,6 +37,7 @@ public class Snake implements KeyboardHandler {
         this.text.draw();
 
         this.score = 0;
+        this.bestScore = 0;
         this.hasEatenInLastMove = false;
         this.grid = grid;
         initKeyboard();
@@ -52,6 +54,16 @@ public class Snake implements KeyboardHandler {
             body.add((SimpleGfxGridPosition) this.grid.makeGridPosition(this.pos.getCol(), this.pos.getRow() - i - 1));
             body.get(i).setColor(GridColor.GREEN);
             body.get(i).lastDirection = GridDirection.DOWN;
+        }
+    }
+
+    public int getBestScore(){
+        return this.bestScore;
+    }
+
+    public void updateBestScore(){
+        if(this.score > this.bestScore){
+            this.bestScore = this.score;
         }
     }
 

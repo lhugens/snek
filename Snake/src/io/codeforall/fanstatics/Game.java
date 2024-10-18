@@ -22,11 +22,14 @@ public class Game {
     private Snake snake;
     private Apple apple;
 
+    private int bestScore;
+
     public Game(int cols, int rows) {
         this.cols = cols;
         this.rows = rows;
         this.gameStarted = false;
         this.grid = SimpleGfxGridFactory.makeGrid(cols, rows);
+        this.bestScore = 0;
     }
 
     public void start() throws InterruptedException {
@@ -87,9 +90,10 @@ public class Game {
             public Keyboard keyboard;
             public SimpleGfxGrid grid;
             private Text text;
+            private Text bestScoreText;
             public boolean gameStarted;
 
-            public GameRestart(SimpleGfxGrid grid, boolean gameStarted) {
+            public GameRestart(SimpleGfxGrid grid, boolean gameStarted, int score) {
                 initKeyboard();
                 this.gameStarted = gameStarted;
                 this.grid = grid;
@@ -98,6 +102,11 @@ public class Game {
                 this.text.grow(this.grid.getCellSize() * 7, this.grid.getCellSize() * 3);
                 this.text.setColor(Color.WHITE);
                 this.text.draw();
+
+                this.bestScoreText = new Text(this.grid.getCols() / 2 * this.grid.getCellSize() , (this.grid.getRows()+5) * 2/ 3* this.grid.getCellSize(), "Best score: " + score);
+                this.bestScoreText.grow(this.grid.getCellSize() * 2, this.grid.getCellSize());
+                this.bestScoreText.setColor(Color.WHITE);
+                this.bestScoreText.draw();
             }
 
             private void initKeyboard() {
@@ -116,6 +125,7 @@ public class Game {
                 switch (keyboardEvent.getKey()) {
                     case KeyboardEvent.KEY_SPACE:
                         this.text.delete();
+                        this.bestScoreText.delete();
                         this.gameStarted = true;
                         break;
                 }
@@ -135,11 +145,13 @@ public class Game {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+        this.snake.updateBestScore();
+        this.bestScore = this.snake.getBestScore() > this.bestScore ? this.snake.getBestScore() : this.bestScore;
         Text gameOverText = new Text(this.grid.getCols()/2*this.grid.getCellSize(), this.grid.getRows()/2*this.grid.getCellSize(), "Game Over");
         gameOverText.grow(this.grid.getCellSize()*15,this.grid.getCellSize()*5);
         gameOverText.setColor(Color.WHITE);
         gameOverText.draw();
-        GameRestart restart = new GameRestart(this.grid, this.gameStarted);
+        GameRestart restart = new GameRestart(this.grid, this.gameStarted, this.bestScore);
         while (!restart.gameStarted) {
             Thread.sleep(100);
         }
