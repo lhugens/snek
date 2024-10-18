@@ -115,8 +115,12 @@ public class Game {
                 KeyboardEvent pressSpace = new KeyboardEvent();
                 pressSpace.setKey(KeyboardEvent.KEY_SPACE);
                 pressSpace.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-
                 this.keyboard.addEventListener(pressSpace);
+
+                KeyboardEvent pressQ = new KeyboardEvent();
+                pressQ.setKey(KeyboardEvent.KEY_Q);
+                pressQ.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+                this.keyboard.addEventListener(pressQ);
             }
 
 
@@ -127,6 +131,9 @@ public class Game {
                         this.text.delete();
                         this.bestScoreText.delete();
                         this.gameStarted = true;
+                        break;
+                    case KeyboardEvent.KEY_Q:
+                        System.exit(0);
                         break;
                 }
             }
