@@ -6,6 +6,7 @@ import io.codeforall.fanstatics.grid.position.GridPosition;
 import io.codeforall.fanstatics.grid.GridColor;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import java.awt.*;
 
@@ -74,15 +75,15 @@ public class SimpleGfxGridPosition extends AbstractGridPosition {
     /**
      * @see GridPosition#moveInDirection(GridDirection, int)
      */
-    @Override
-    public void moveInDirection(GridDirection direction, int distance) {
+    public void moveInDirection(GridDirection direction, int distance, Picture picture) {
         int oldCol = this.getCol();
         int oldRow = this.getRow();
         super.moveInDirection(direction, distance);
         int newCol = this.getCol();
         int newRow = this.getRow();
         this.rectangle.translate((newCol - oldCol) * this.grid.getCellSize(), (newRow - oldRow) * this.grid.getCellSize());
-
+        picture.translate((newCol - oldCol) * this.grid.getCellSize(), (newRow - oldRow) * this.grid.getCellSize());
+        System.out.println(newCol + " " + oldCol + " " + newRow + " " + oldRow);
     }
 
     /**
