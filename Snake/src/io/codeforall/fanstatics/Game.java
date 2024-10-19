@@ -46,7 +46,7 @@ public class Game {
                 this.gameStarted = gameStarted;
                 this.grid = grid;
                 this.grid.init();
-                this.text = new Text(this.grid.getCols() / 2 * this.grid.getCellSize(), this.grid.getRows() / 2 * this.grid.getCellSize(), "Press Space to start");
+                this.text = new Text(this.grid.getCols() / 1.8 * this.grid.getCellSize(), this.grid.getRows() / 2 * this.grid.getCellSize(), "Press Space to start");
                 this.text.grow(this.grid.getCellSize() * 15, this.grid.getCellSize() * 5);
                 this.text.setColor(Color.WHITE);
                 this.text.draw();
@@ -93,18 +93,18 @@ public class Game {
             private Text bestScoreText;
             public boolean gameStarted;
 
-            public GameRestart(SimpleGfxGrid grid, boolean gameStarted, int score) {
+            public GameRestart(SimpleGfxGrid grid, boolean gameStarted, int score, int bestScore) {
                 initKeyboard();
                 this.gameStarted = gameStarted;
                 this.grid = grid;
 
                 this.text = new Text(this.grid.getCols() / 2 *  this.grid.getCellSize() , this.grid.getRows() * 2/ 3* this.grid.getCellSize(), "Press Space to restart");
-                this.text.grow(this.grid.getCellSize() * 7, this.grid.getCellSize() * 3);
+                this.text.grow(this.grid.getCellSize() * 7, this.grid.getCellSize() * 2);
                 this.text.setColor(Color.WHITE);
                 this.text.draw();
 
-                this.bestScoreText = new Text(this.grid.getCols() / 2 * this.grid.getCellSize() , (this.grid.getRows()+5) * 2/ 3* this.grid.getCellSize(), "Best score: " + score);
-                this.bestScoreText.grow(this.grid.getCellSize() * 2, this.grid.getCellSize());
+                this.bestScoreText = new Text(this.grid.getCols() / 2 * this.grid.getCellSize() , (this.grid.getRows()+5) * 2/ 3* this.grid.getCellSize(), "Score: " + score + "    Best score: " + bestScore);
+                this.bestScoreText.grow(this.grid.getCellSize() * 5, this.grid.getCellSize());
                 this.bestScoreText.setColor(Color.MAGENTA);
                 this.bestScoreText.draw();
             }
@@ -154,11 +154,11 @@ public class Game {
         }
         this.snake.updateBestScore();
         this.bestScore = this.snake.getBestScore() > this.bestScore ? this.snake.getBestScore() : this.bestScore;
-        Text gameOverText = new Text(this.grid.getCols()/2*this.grid.getCellSize(), this.grid.getRows()/2*this.grid.getCellSize(), "Game Over");
+        Text gameOverText = new Text(this.grid.getCols()/1.8*this.grid.getCellSize(), this.grid.getRows()/2*this.grid.getCellSize(), "Game Over");
         gameOverText.grow(this.grid.getCellSize()*15,this.grid.getCellSize()*5);
         gameOverText.setColor(Color.WHITE);
         gameOverText.draw();
-        GameRestart restart = new GameRestart(this.grid, this.gameStarted, this.bestScore);
+        GameRestart restart = new GameRestart(this.grid, this.gameStarted, this.snake.getScore(), this.bestScore);
         while (!restart.gameStarted) {
             Thread.sleep(100);
         }

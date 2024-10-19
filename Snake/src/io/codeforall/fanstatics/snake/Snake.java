@@ -60,6 +60,10 @@ public class Snake implements KeyboardHandler {
         }
     }
 
+    public int getScore() {
+        return score;
+    }
+
     public int getBestScore(){
         return this.bestScore;
     }
