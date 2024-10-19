@@ -7,7 +7,6 @@ import io.codeforall.fanstatics.grid.GridColor;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
-import java.awt.*;
 
 /**
  * Simple graphics position
